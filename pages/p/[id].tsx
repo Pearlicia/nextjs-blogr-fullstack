@@ -21,7 +21,6 @@ import prisma from '../../lib/prisma';
 //   }
 // }
 
-
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
     where: {
@@ -38,8 +37,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   };
 };
 
-
-
 const Post: React.FC<PostProps> = (props) => {
   let title = props.title
   if (!props.published) {
@@ -51,7 +48,7 @@ const Post: React.FC<PostProps> = (props) => {
       <div>
         <h2>{title}</h2>
         <p>By {props?.author?.name || "Unknown author"}</p>
-        <ReactMarkdown source={props.content} />
+        <ReactMarkdown children={props.content} />
       </div>
       <style jsx>{`
         .page {
