@@ -6,11 +6,12 @@ import Router from 'next/router';
 import { PostProps } from '../../components/Post';
 import { SessionProvider, useSession } from 'next-auth/react';
 import prisma from '../../lib/prisma';
+import { stringify } from 'querystring';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
     where: {
-      id:(params?.id) || -1,
+      id: Number (params?.id) || -1,
     },
     include: {
       author: {
@@ -23,14 +24,14 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   };
 };
 
-async function publishPost(id): Promise<void> {
+async function publishPost(id: Number): Promise<void> {
   await fetch(`http://localhost:3000/api/publish/${id}`, {
     method: 'PUT',
   });
   await Router.push('/');
 }
 
-async function deletePost(id): Promise<void> {
+async function deletePost(id: Number): Promise<void> {
   await fetch(`http://localhost:3000/api/post/${id}`, {
     method: 'DELETE',
   });
